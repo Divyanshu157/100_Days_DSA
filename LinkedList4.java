@@ -87,6 +87,59 @@ public class LinkedList4 {
     }
 
 
+    public  void zigZag()
+    {
+//        find mid of linked list
+        Node slow = head;
+        Node fast= head.next;
+        while (fast!=null && fast.next!=null)
+        {
+            slow=slow.next;
+            fast=fast.next.next;
+
+        }
+        Node mid = slow;
+
+
+
+
+//        reverse the 2nd half of linked lst
+
+        Node curr = mid.next;
+        mid.next=null;
+        Node prev= null;
+        Node next;
+        while (curr!=null)
+        {
+            next=curr.next;
+            curr.next=prev;
+            prev= curr;
+            curr=next;
+
+        }
+
+        Node left=head;
+        Node right=prev;
+        Node nextL , nextR;
+
+//        alt merge - zig zag merge
+        while (left!=null && right!=null)
+        {
+            nextL=left.next;
+            left.next= right;
+            nextR=right.next;
+            right.next=nextL;
+
+            left=nextL;
+            right=nextR;
+
+        }
+
+
+
+    }
+
+
     public Node mergeSort(Node head)
     {
         if(head==null ||head.next==null)
@@ -128,9 +181,13 @@ public class LinkedList4 {
         ll.addFirst(2);
         ll.addFirst(3);
         ll.addFirst(4);
+        ll.addFirst(7);
         ll.print();
 
-        head=ll.mergeSort(head);
+//        head=ll.mergeSort(head);
+//        ll.zigZag();
+//        ll.print();
+        ll.zigZag();
         ll.print();
 
 
