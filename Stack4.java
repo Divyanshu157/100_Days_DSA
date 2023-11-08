@@ -1,5 +1,4 @@
 import java.util.Stack;
-
 public class Stack4 {
 //    public static void stockSpan(int stocks[],int span[])
 //    {
@@ -23,6 +22,9 @@ public class Stack4 {
 //            s.push(i);
 //        }
 //    }
+
+
+//    problem 1
 
     public static void stockSpan(int stocks[],int span[])
     {
@@ -53,7 +55,38 @@ public class Stack4 {
             s.push(i);
         }
     }
+// problem 2
+    public static boolean isValid(String str)
+    {
+        Stack<Character> s = new Stack<>();
+        for(int i=0;i<str.length();i++)
+        {
+            char ch =str.charAt(i);
+            if(ch=='(' || ch=='{' || ch=='['){
+                s.push(ch);
+            }
+            else{
+                if(s.isEmpty()){
+                    return false;
+                }
+                if( (s.peek()=='(' && ch ==')')
+                    ||(s.peek()=='{' && ch=='}')
+                    || (s.peek()=='[' &&  ch==']') ) {
+                   s.pop();
+                }else {
+                    return false;
+                }
+            }
+        }
+        if(s.isEmpty()){
+            return true;
 
+        }else{
+            return false;
+        }
+
+    }
+//problem 3
     public static void nextGreater(int arr[] , int next[]) {
         Stack<Integer> s = new Stack<>();
         for (int i = arr.length - 1; i >= 0; i--) {
@@ -71,8 +104,90 @@ public class Stack4 {
         }
     }
 
+//    problem 4
+
+    public static boolean isDuplicate(String str){
+        Stack<Character>  s = new Stack<>();
+        for(int i=0;i<str.length();i++)
+        {
+            char ch = str.charAt(i);
+            if(ch==')'){
+                int count =0;
+                while (s.peek() !='(')
+                {
+                    s.pop();
+                    count++;
+                }
+                if(count<1){
+                    return true;   // duplicate
+                }else{
+                    s.pop();
+                }
+            }else {
+                s.push(ch);
+            }
+        }
+        return false;
+    }
+
+//    problem 5
+    public static void maxArea(int arr []){
+        int maxArea  =0;
+        int nsr[] =  new int[arr.length];
+        int nsl[] = new int[arr.length];
+        Stack<Integer> s = new Stack<>();
 
 
+
+//        Next Smaller right
+        for(int i=arr.length-1;i>=0;i--)
+        {
+            while (!s.isEmpty() && arr[s.peek()]>=arr[i])
+            {
+                s.pop();
+            }
+            if(s.isEmpty())
+            {
+                nsr[i] = arr.length;
+            }else {
+                nsr[i]=s.peek();
+            }
+            s.push(i);
+        }
+
+//        next smaller left
+        s=new Stack<>();
+
+        for(int i=0;i< arr.length;i++)
+        {
+            while (!s.isEmpty() && arr[s.peek()]>=arr[i])
+            {
+                s.pop();
+            }
+            if(s.isEmpty())
+            {
+                nsl[i] = -1;
+            }else {
+                nsl[i]=s.peek();
+            }
+            s.push(i);
+        }
+
+
+        for (int i=0;i<arr.length;i++)
+        {
+            int height = arr[i];
+            int width = nsr[i] - nsl[i] -1;
+            int currArea = height * width ;
+            maxArea=  Math.max(currArea,maxArea);
+
+        }
+
+        System.out.println(maxArea);
+    }
+
+
+//    Current Area : width = j-i-1 =  nsr[i] - nsl[i] - 1
 
 
 
@@ -85,15 +200,25 @@ public class Stack4 {
 //        {
 //            System.out.println(span[i]+" ");
 //        }
-        int arr[]= {100,80,60,70,60,85,100};
-        int next[]= new int [arr.length];
-        nextGreater(arr,next);
-        for(int i=0;i<arr.length;i++)
-        {
-            System.out.println(next[i]+" ");
-        }
+
+
+
+//        int arr[]= {100,80,60,70,60,85,100};
+//        int next[]= new int [arr.length];
+//        nextGreater(arr,next);
+//        for(int i=0;i<arr.length;i++)
+//        {
+//            System.out.println(next[i]+" ");
+//        }
+
+
+
+
+//        String str = "((a+b))";
+//        System.out.println(isDuplicate(str));
+
+        int arr[] = {2,1,5,6,2,3};
+        maxArea(arr);
 
     }
-
-
 }
