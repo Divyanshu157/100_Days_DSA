@@ -45,7 +45,39 @@ public class GreedyApproch {
     }
 
 
-    
+//    problem 2 - Fractional knapsnack
+    public static void fractionKnapscak(int weight[] , int val[],int W){
+
+        double ratio[][] =  new  double[val.length][2];
+//        0th col =>index
+//        1st col => ratio
+
+        for (int i=0;i<val.length;i++){
+            ratio[i][0] = i;
+            ratio[i][1]= val[i]/(double)weight[i];
+
+        }
+
+//        ascending order
+        Arrays.sort(ratio , Comparator.comparingDouble(o->o[1]));
+        int capacity  = W;
+        int finalVal=0;
+        for (int i= ratio.length-1;i>=0;i--){
+            int idx = (int)ratio[i][0];
+            if (capacity>=weight[idx]){
+                finalVal  += val[idx];
+                capacity -=weight[idx];
+            }else {
+                finalVal +=(ratio[i][1] *capacity);
+                capacity =0;
+                break;
+            }
+        }
+        System.out.println(finalVal);
+    }
+
+
+
 
 
 
@@ -55,7 +87,12 @@ public class GreedyApproch {
         int start[] = {1, 3, 0, 5, 8, 5};
         int end[] = {2,4, 6, 7, 9, 9};
 
-        activitySelection(start,end);
+//        activitySelection(start,end);
+        int val[]= {60,100,120};
+        int weight[] = {10,20,30};
+        int W =50;
+        fractionKnapscak(weight,val,W);
+
 
     }
 }
