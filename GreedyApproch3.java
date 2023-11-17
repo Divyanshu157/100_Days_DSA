@@ -65,15 +65,50 @@ public class GreedyApproch3 {
         }
     }
 
+//    problem 3 ->  chocola problem   (Hard level)
 
+    public static int chocoloProblem(Integer costVer[] , Integer costHor[] , int rows,int cols){
+        int n= rows;
+        int m = cols;
 
+        Arrays.sort(costHor ,Collections.reverseOrder());
+        Arrays.sort(costVer,Collections.reverseOrder());
+        int h=0, v=0;
+        int hp= 1,vp=1;
+        int cost =0;
+        while (h<costHor.length && v<costVer.length){
+            if(costVer[v] <=costHor[h]){ //horizontal Cut
+                cost += ( vp *costHor[h]);
+                hp++;
+                h++;
+            }else {  //vertical cut
+                cost += (costVer[v] * hp);
+                vp++;
+                v++;
+            }
+        }
+        while (v<costVer.length){
+            cost += (costVer[v]*hp);
+            vp++;
+            v++;
+        }
+        while (h<costHor.length){
+            cost += (costHor[h] *vp);
+            hp++;
+            h++;
+        }
+        return cost;
+    }
 
     public static void main(String[] args) {
 //        Integer coins[] = {1,2,5,10,20,50,100,500,2000};
 //        System.out.println(countCoin(coins,5590));
 
-        int jobsInfo[][] = {{4,20},{1,10},{1,40},{1,30}};
-        jobs(jobsInfo);
+//        int jobsInfo[][] = {{4,20},{1,10},{1,40},{1,30}};
+//        jobs(jobsInfo);
 
+        Integer costVer[] ={2,1,3,1,4};
+        Integer costHor[] ={4,1,2};
+        System.out.println(chocoloProblem(costVer,costHor ,4,6));
     }
 }
