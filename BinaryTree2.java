@@ -81,7 +81,7 @@ public class BinaryTree2 {
     public static Info diameter2(Node root){
         if(root==null){
             return new Info(0,0);
-            
+
         }
 
         Info leftInfo = diameter2(root.left);
@@ -97,6 +97,31 @@ public class BinaryTree2 {
 
     }
 
+    public static Boolean isSubtree(Node root ,Node subTree){
+        if(root==null){
+            return false;
+        }
+        if(root.data==subTree.data){
+            if(isIdentical(root,subTree)) {
+                return true;
+            }
+        }
+        return isSubtree(root.left , subTree) || isSubtree(root.right,subTree);
+    }
+    public static Boolean isIdentical(Node node , Node subTree){
+        if(node==null && subTree==null){
+            return true;
+        }else if(node ==null || subTree==null || node.data != subTree.data){
+            return false;
+        }
+        if(!isIdentical(node.left , subTree.left)){
+            return false;
+        }
+        if (!isIdentical(node.right , subTree.right)){
+            return false;
+        }
+        return true;
+    }
 
     public static void main(String[] args) {
 
@@ -117,6 +142,12 @@ public class BinaryTree2 {
         root.left.right=new Node(5);
         root.right.left=new Node(6);
         root.right.right=new Node(7);
+
+
+        Node subTree = new Node(2);
+        subTree.left= new Node(4);
+        subTree.right= new Node(5);
+
 //        root.left.left.left= new Node(8);
 
 
@@ -129,7 +160,8 @@ public class BinaryTree2 {
 //        System.out.println(count(root));
 //        System.out.println(sum(root));
 //        System.out.println(diameter(root));
-        System.out.println(diameter2(root));
+//        System.out.println(diameter2(root));
+        System.out.println(isSubtree(root,subTree));
 
 
     }
