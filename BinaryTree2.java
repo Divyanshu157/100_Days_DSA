@@ -197,6 +197,60 @@ public class BinaryTree2 {
         return root;
     }
 
+//    day28
+//    Problem  9  ->  Minimum distance between two nodes
+    public static int minDistance(Node root , int n1 ,int n2){
+
+        Node lca = lca2(root,n1,n2);
+        int dis1=distance(lca,n1);
+        int dis2=distance(lca,n2);
+
+        return  dis1+dis2;
+    }
+    public static int distance(Node root,int n){
+        if(root==null){
+            return -1;
+        }
+        if(root.data==n){
+            return 0;
+        }
+        int ld= distance(root.left,n);
+        int rd= distance(root.right,n);
+        if(ld==-1 && rd==-1){
+            return -1;
+        }else if(ld==-1){
+            return rd+1;
+        }else {
+            return ld+1;
+        }
+
+    }
+
+//    problrm 10  ->  Kth ancestor of a node
+    public static int kthAncestor(Node root, int n , int k){
+        if(root==null){
+            return -1;
+        }
+        if(root.data==n){
+            return 0;
+        }
+        int leftDis = kthAncestor(root.left,n ,k);
+        int rightDis= kthAncestor(root.right,n,k);
+
+        if(leftDis ==-1 && rightDis==-1){
+            return -1;
+
+        }
+        int max = Math.max(leftDis,rightDis);
+        if(max+1==k){
+            System.out.println(root.data);
+        }
+        return max+1;
+
+
+    }
+
+
     public static void main(String[] args) {
 
 
@@ -205,7 +259,6 @@ public class BinaryTree2 {
                    2     3
                   / \   / \
                 4    5 6   7
-
 
          */
 
@@ -216,13 +269,13 @@ public class BinaryTree2 {
         root.left.right=new Node(5);
         root.right.left=new Node(6);
         root.right.right=new Node(7);
+        root.right.right.left=new Node(8);
+        root.right.right.right=new Node(9);
 
 
 //        Node subTree = new Node(2);
 //        subTree.left= new Node(4);
 //        subTree.right= new Node(5);
-
-
 
 //        root.left.left.left= new Node(8);
 
@@ -238,11 +291,13 @@ public class BinaryTree2 {
 //        System.out.println(diameter(root));
 //        System.out.println(diameter2(root));
 //        System.out.println(isSubtree(root,subTree));
-//      kLevel(root,1,3);
-
+//        kLevel(root,1,3);
 //        System.out.println(lca(root , 2,5).data);
 //        System.out.println(lca(root,4,5).data);
+//        System.out.println(lca2(root,6,7).data);
+//        System.out.println(minDistance(root,4,9));
+//        System.out.println(root.right.right.right.data);
+        kthAncestor(root,9,1);
 
-        System.out.println(lca2(root,6,7).data);
     }
 }
