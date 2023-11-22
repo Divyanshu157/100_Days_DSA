@@ -246,11 +246,33 @@ public class BinaryTree2 {
             System.out.println(root.data);
         }
         return max+1;
-
-
     }
 
+    public static int transform(Node root ){
+        if(root==null){
+            return 0;
+        }
 
+        int leftChild = transform(root.left);
+        int rightChid = transform(root.right);
+        int data = root.data;
+
+        int newLeft  = root.left ==null ?0:root.left.data;
+        int newRight = root.right ==null ? 0:root.right.data;
+
+        root.data = newLeft+leftChild+newRight+rightChid;
+        return data;
+    }
+
+    public static void preOrder(Node root ){
+        if (root == null) {
+
+            return;
+        }
+        System.out.print(root.data+" ");
+        preOrder(root.left);
+        preOrder(root.right);
+    }
     public static void main(String[] args) {
 
 
@@ -269,8 +291,8 @@ public class BinaryTree2 {
         root.left.right=new Node(5);
         root.right.left=new Node(6);
         root.right.right=new Node(7);
-        root.right.right.left=new Node(8);
-        root.right.right.right=new Node(9);
+//        root.right.right.left=new Node(8);
+//        root.right.right.right=new Node(9);
 
 
 //        Node subTree = new Node(2);
@@ -297,7 +319,10 @@ public class BinaryTree2 {
 //        System.out.println(lca2(root,6,7).data);
 //        System.out.println(minDistance(root,4,9));
 //        System.out.println(root.right.right.right.data);
-        kthAncestor(root,9,1);
+//        kthAncestor(root,9,1);
+
+        transform(root);
+        preOrder(root);
 
     }
 }
