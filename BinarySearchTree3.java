@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class BinarySearchTree3 {
 
     static class Node{
@@ -98,6 +100,66 @@ public class BinarySearchTree3 {
             return leftInfo.size> rightInfo.size ? leftInfo : rightInfo;
 
         }
+    }
+
+//    Day34
+//    Problem - >
+
+    public static void getInorder( Node root, ArrayList<Integer> inorder){
+        if(root==null){
+            return;
+        }
+        getInorder(root.left , inorder);
+        inorder.add(root.data);
+        getInorder(root.right , inorder);
+    }
+
+    public static Node mergeBST(Node root1 , Node root2){
+//        step 1
+        ArrayList<Integer> arr1 = new ArrayList<>();
+        getInorder(root1 ,arr1);
+//        step2
+
+        ArrayList<Integer> arr2 = new ArrayList<>();
+        getInorder(root2 ,arr2);
+
+//        merge
+        int i=0,j=0;
+        ArrayList<Integer> finalArr  = new ArrayList<>();
+        while(i<arr1.size() && j<arr2.size()){
+            if (arr1.get(i)<=arr2.get(j)){
+                finalArr.add(arr1.get(j));
+                i++;
+
+            }else {
+                finalArr.add(arr2.get(j));
+                j++;
+
+            }
+        }
+        while (i<arr1.size()){
+            finalArr.add(arr1.get(i));
+            i++;
+
+        }
+        while (j<arr2.size()){
+            finalArr.add(arr2.get(j));
+            j++;
+
+        }
+         return buildBalancedTree(finalArr,0,finalArr.size()-1);
+
+
+    }
+    public static Node buildBalancedTree(ArrayList<Integer> inorder , int start , int end){
+        if(start>end) {
+            return null;
+        }
+        int mid = (start+end)/2;
+        Node root = new Node(inorder.get(mid));
+        root.left= buildBalancedTree(inorder , start,mid-1);
+        root.right=buildBalancedTree(inorder,mid+1,end);
+        return root;
     }
 
     public static void main(String[] args) {
