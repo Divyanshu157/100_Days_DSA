@@ -1,9 +1,11 @@
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 public class HashSet2 {
 
+    //Problem 1 -> Itinerary Solution
     public static String getStart(HashMap<String,String> tickets){
 
         HashMap<String,String> revMap= new HashMap<>();
@@ -18,6 +20,23 @@ public class HashSet2 {
         }
 
         return null;
+    }
+
+    //Problem 2 -> size of largest subarray with sum 0
+    public static int getLargest(int arr[]){
+        int len=0;
+        int sum=0;
+        HashMap<Integer,Integer> map = new HashMap<>();
+        for (int j=0;j<arr.length;j++){
+            sum +=arr[j];
+            if (map.containsKey(sum)){
+                len=Math.max(len,j-map.get(sum));
+            }else {
+                map.put(sum,j);
+            }
+        }
+
+        return len;
     }
 
     public static void main(String[] args) {
@@ -78,6 +97,7 @@ public class HashSet2 {
 
          */
 
+        /*
         HashMap<String,String>  tickets = new HashMap<>();
         tickets.put("Chennai" , "Bengaluru");
         tickets.put("Mumbai","Delhi");
@@ -90,5 +110,11 @@ public class HashSet2 {
             System.out.print(" -> "+tickets.get(start));
             start=tickets.get(start);
         }
+
+         */
+
+        int arr[]={ 15,-2,2,-8,1,7,10};
+        System.out.println(getLargest(arr));
     }
+
 }
