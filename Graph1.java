@@ -1,6 +1,7 @@
-import java.util.ArrayList;
+import java.awt.*;
+import java.lang.reflect.Parameter;
+import java.util.*;
 import java.util.LinkedList;
-import java.util.Queue;
 
 public class Graph1 {
     static class Edge{
@@ -21,37 +22,37 @@ public class Graph1 {
 
         }
 
-        graph[0].add(new Edge(0,1,1));
-        graph[0].add(new Edge(0,2,1));
+        graph[0].add(new Edge(0,1,2));
+        graph[0].add(new Edge(0,2,4));
 
         //1=vertex
-        graph[1].add(new Edge(1,0,1));
-        graph[1].add(new Edge(1,3,1));
+        graph[1].add(new Edge(1,3,7));
+        graph[1].add(new Edge(1,2,1));
 //        graph[1].add(new Edge(1,3,3));
 
         //2 vetex
-        graph[2].add(new Edge(2,0,1));
-        graph[2].add(new Edge(2,4,1));
+        graph[2].add(new Edge(2,4,3));
+//        graph[2].add(new Edge(2,4,1));
 //        graph[2].add(new Edge(2,4,4));
 
 //        3 vertex
-        graph[3].add(new Edge(3,1,1));
-        graph[3].add(new Edge(3,4,1));
         graph[3].add(new Edge(3,5,1));
+//        graph[3].add(new Edge(3,4,1));
+//        graph[3].add(new Edge(3,5,1));
 
 
         //4 veertex
-        graph[4].add(new Edge(4,2,1));
-        graph[4].add(new Edge(4,3,1));
-        graph[4].add(new Edge(4,5,1));
+        graph[4].add(new Edge(4,3,2));
+        graph[4].add(new Edge(4,5,5));
+//        graph[4].add(new Edge(4,5,1));
 
-        //5 vertex
-        graph[5].add(new Edge(5,3,1));
-        graph[5].add(new Edge(5,4,1));
-        graph[5].add(new Edge(5,6,1));
-
-        //6 vetex
-        graph[6].add(new Edge(6,5,1));
+//        //5 vertex
+//        graph[5].add(new Edge(5,3,1));
+//        graph[5].add(new Edge(5,4,1));
+//        graph[5].add(new Edge(5,6,1));
+//
+//        //6 vetex
+//        graph[6].add(new Edge(6,5,1));
     }
 
     public static void bfs(ArrayList<Edge>[] graph){
@@ -142,6 +143,79 @@ public class Graph1 {
         System.out.println();
     }
 
+    public static void printAllPath(ArrayList<Edge> graph[],int src,int dest,String path){
+        if (src==dest){
+            System.out.println(path+dest);
+            return;
+        }
+        for (int i=0;i<graph[src].size();i++){
+            Edge e = graph[src].get(i);
+            printAllPath(graph,e.dest,dest,path+src);
+        }
+    }
+
+
+    static class Pair implements Comparable<Pair> {
+        int n ;
+        int path;
+
+        public Pair(int n ,int path){
+            this.n=n;
+            this.path=path;
+
+        }
+        @Override
+        public int compareTo(Pair p2){
+            return this.path-p2.path;
+
+        }
+
+
+    }
+
+    public static void dijkstra(ArrayList<Edge> graph[] ,int src){
+        int dist[] = new int[graph.length];
+        for (int i=0;i<graph.length;i++){
+            if (i!=src){
+                dist[i] = Integer.MAX_VALUE;
+
+            }
+        }
+        boolean vis[] = new boolean[graph.length];
+        PriorityQueue<Pair> pq = new PriorityQueue<>();
+        pq.add(new Pair(src,0));
+        //loop
+        while (!pq.isEmpty()){
+            Pair curr =pq.remove();
+            if (!vis[curr.n]) {
+                vis[curr.n]=true;
+                //neighbours
+                for (int i=0;i<graph[curr.n].size();i++){
+                    Edge e = graph[curr.n].get(i);
+                    int u=e.scr;
+                    int v=e.dest;
+                    int wt=e.wt;
+
+                    if (dist[u]+wt < dist[v]){
+                        dist[v] = dist[u]+wt;
+                        pq.add(new Pair(v,dist[v]));
+
+
+                    }
+
+                }
+            }
+
+        }
+
+        //print all source to vertices
+        for (int i=0;i<dist.length;i++){
+            System.out.println(dist[i]+" ");
+
+        }
+        System.out.println();
+    }
+
 
 
 
@@ -180,7 +254,7 @@ public class Graph1 {
 //
 //        }
 
-        int V =7;
+        int V =6;
         ArrayList<Edge> graph[] = new ArrayList[V];
         createGraph(graph);
         bfs(graph);
@@ -192,7 +266,12 @@ public class Graph1 {
 //        System.out.println(hasPath(graph,0,5,new boolean[V]));
 
         System.out.println("after topsort");
-        topSort(graph);
+//        topSort(graph);
+//        printAllPath(graph,5,1,"");
+        int src =0;
+        dijkstra(graph,src);
+
+
 
 
     }
