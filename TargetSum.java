@@ -1,4 +1,7 @@
 public class TargetSum {
+    
+    
+    // Target sum Question takes two days to understand due to short span of time available to programmer
     public static boolean targetSumSubset(int arr[],int sum){
         int n = arr.length;
         boolean dp[][] = new boolean[n+1][sum+1];
@@ -16,6 +19,7 @@ public class TargetSum {
                 }
                 else if(dp[i-1][j] == true){
                     dp[i][j] = true;
+                    dp[i][j] = true;
 
                 }
             }
@@ -25,6 +29,11 @@ public class TargetSum {
 
     }
 
+    
+    
+    
+    //print target  sum equation for ARRay 
+    
     public static void print(boolean dp[][]){
         for (int i=0;i<dp.length;i++){
             for (int j=0;j<dp[0].length;j++){
@@ -39,6 +48,9 @@ public class TargetSum {
 
         int arr[] = {4,2,7,1,3};
         int sum = 10;
+        
+        
+        
 
         System.out.println(targetSumSubset(arr,sum));
     }
