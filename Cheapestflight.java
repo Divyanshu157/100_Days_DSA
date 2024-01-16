@@ -18,12 +18,79 @@ The graph is shown above.
 The optimal path with at most 1 stop from city 0 to 3 is marked in red and has cost 100 + 600 = 700.
 Note that the path through cities [0,1,2,3] is cheaper but is invalid because it uses 2 stops.
  */
+import java.util.*;
 
+class Data {
+    int node, dist, cost;
 
-public class Cheapestflight {
-
-
-    public static void main(String[] args) {
-
+    Data(int a, int b, int c) {
+        node = a;
+        dist = b;
+        cost = c;
     }
 }
+
+class Cheapestflight1 {
+    int[][] cost;
+
+    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int K) {
+        cost = new int[n + 1][K + 10];
+        for (int i = 0; i <= n; i++) {
+            Arrays.fill(cost[i], Integer.MAX_VALUE);
+        }
+
+        List<int[]>[] graph = new ArrayList[n];
+        for (int i = 0; i < n; i++) {
+            graph[i] = new ArrayList<>();
+        }
+
+        for (int[] flight : flights) {
+            int u = flight[0];
+            int v = flight[1];
+            int w = flight[2];
+            graph[u].add(new int[]{v, w});
+        }
+
+        PriorityQueue<Data> q = new PriorityQueue<>(Comparator.comparingInt(a -> a.cost));
+        q.add(new Data(src, 0, 0));
+        cost[src][0] = 0;
+
+        while (!q.isEmpty()) {
+            Data temp = q.poll();
+            int curr = temp.node;
+            int dist = temp.dist;
+
+            if (curr == dst)
+                return temp.cost;
+
+            dist++;
+            if (dist > K + 1)
+                continue;
+
+            for (int[] neighbor : graph[curr]) {
+                int nextNode = neighbor[0];
+                int newCost = cost[curr][dist - 1] + neighbor[1];
+
+                if (newCost < cost[nextNode][dist]) {
+                    cost[nextNode][dist] = newCost;
+                    q.add(new Data(nextNode, dist, newCost));
+                }
+            }
+        }
+
+        return -1;
+    }
+
+    public static void main(String[] args) {
+        Cheapestflight1 ob = new Cheapestflight1();
+        int[][] v = {{0, 1, 100}, {1, 2, 100}, {0, 2, 500}};
+        System.out.println(ob.findCheapestPrice(3, v, 0, 2, 1));
+    }
+}
+
+
+
+
+
+
+
