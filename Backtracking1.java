@@ -48,13 +48,34 @@ public class Backtracking1 {
         System.out.println();
     }
 
+
+
+    //Day87
+    public static void findPermutation(String str , String ans){
+        //base case
+        if (str.length()==0){
+            System.out.println(ans);
+            return;
+        }
+
+        //recursion
+        for (int i=0;i<str.length();i++){
+            char curr = str.charAt(i);
+            String newStr =  str.substring(0,i)+str.substring(i+1,str.length());
+            findPermutation(newStr,ans+curr);
+        }
+    }
+
     public static void main(String[] args) {
 //        int arr[] =new int[5];
 //        changeArr(arr,0,1);
 //        print(arr);
 
         
-        findsubString("abc" , "",0);
+//        findsubString("abc" , "",0);
 
+
+
+        findPermutation("abc","");
     }
 }
